@@ -37,6 +37,7 @@ class TrialbalanceController extends Controller {
 	public function index()
 	{
             session_start();
+            //echo"hai";
             $id = $_SESSION['id'];
             $data['username'] = 'Guest';
             $logchk = $this->chklogin($id);

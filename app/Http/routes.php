@@ -24,13 +24,17 @@ $router->controllers([
     
     'home' => 'HomeController',
     'trialbalance' => 'TrialbalanceController',
-    'paymentdue' => 'PaymentDueController',
+    'purchasedue' => 'PurchaseDueController',
+    'salesdue' => 'SalesDueController',
+    'paymentfollowup' => 'PaymentfollowupController',
     ]);
 //$router->post('trialbalance/acctdata', 'TrialbalanceController@postAcctdata');
 
 Route::resource('home', 'HomeController');
 Route::resource('trialbalance', 'TrialbalanceController');
-Route::resource('paymentdue', 'PaymentDueController');
+Route::resource('purchasedue', 'PurchaseDueController');
+Route::resource('salesdue', 'SalesDueController');
+Route::resource('paymentfollowup', 'PaymentfollowupController');
 
 //Route::resource('trialbalance', 'TrialbalanceController@index');
 //$router->post('home/acctdata', 'HomeController@getAcctdata');

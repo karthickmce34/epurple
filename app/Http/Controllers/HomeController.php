@@ -47,7 +47,8 @@ class HomeController extends Controller {
            
            $data['username'] = 'Guest';
            $session = DB::select("select * from ad_session where ad_session_id='".$id."'");
-           //print_r($session);
+           //print_r($session);die;
+           
            if($session[0]->session_active == 'Y')
            {
            $userid = $session[0]->createdby;

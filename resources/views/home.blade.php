@@ -139,7 +139,15 @@
                 <ul class="main-menu">
                     <li class="active"><a href="home"><i class="zmdi zmdi-home"></i> Home</a></li>
                     <li><a href="trialbalance"><i class="zmdi zmdi-format-underlined"></i> TrialBalance</a></li>
-                    <li><a href="paymentdue"><i class="zmdi zmdi-view-list"></i> Purchase Payment</a></li>
+                    <li class="sub-menu">
+                        <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-collection-item"></i> Payment Due</a>
+                        <ul>
+                            <li><a href="purchasedue"><i class="zmdi zmdi-view-list"></i> Purchase Payment</a></li>
+                            <li><a href="salesdue"><i class="zmdi zmdi-view-list"></i> Sales Payment</a></li>
+                            <li><a href="paymentfollowup"><i class="zmdi zmdi-view-list"></i> Payment Followup</a></li>
+
+                        </ul>
+                    </li>
                     <!--<li><a href="form-elements.html"><i class="zmdi zmdi-collection-text"></i> Form Elements</a></li>
                     <li><a href="buttons.html"><i class="zmdi zmdi-crop-16-9"></i> Buttons</a></li>
                     <li><a href="icons.html"><i class="zmdi zmdi-airplane"></i>Icons</a></li>
