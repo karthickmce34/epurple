@@ -90,7 +90,7 @@ class SalesDueController extends Controller {
             $data['status']=0;
             $data['orgs'] = $org;
             $data['acctschema'] = $acctschema;
-            $data['session_active'] = $session[0]->session_active;
+            $data['session_active'] = 'Y';//$session[0]->session_active;
             $data['openbravoip'] = $openbravoip;
             if(count($org)>0)
             {
@@ -226,9 +226,11 @@ class SalesDueController extends Controller {
         public function chklogin($id)
         {
             $session = DB::select("select * from ad_session where ad_session_id='".$id."'");
-            
+            $session[0]->session_active = 'Y'; 
+                $session[0]->createdby = 'A64AC1945BAB4525A22356E4E5458CC3';// temperory
             if($session[0]->session_active == 'Y')
             {
+                
                 $sessactive['active'] = $session[0]->session_active;
                 $sessactive['createdby'] = $session[0]->createdby;
                 return $sessactive;
@@ -249,6 +251,7 @@ class SalesDueController extends Controller {
             $sessionid=$inputs['sessionid'];
             $openbravoip   = Config::get('constant.OPENBRAVOIP');
             $session = DB::select("select * from ad_session where ad_session_id='".$sessionid."'");
+            $session[0]->session_active = 'Y'; 
             $data['session_active'] = $session[0]->session_active;
             $data['openbravoip'] = $openbravoip;
             $this->data['session_active'] = $data['session_active'];

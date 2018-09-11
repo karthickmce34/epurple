@@ -11,6 +11,7 @@
         $base_material_path_ful = "/material_admin_1.7.1/jQuery/light/full/";
         ?>
         <!-- Vendor CSS -->
+        <link rel="shortcut icon" href="{{asset("")}}favicon.ico" />
         <link href="{{asset($base_material_path)}}/vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css" rel="stylesheet">
         <link href="{{asset($base_material_path)}}/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet">
         <link href="{{asset($base_material_path_ful)}}/vendors/bower_components/bootstrap-select/dist/css/bootstrap-select.css" rel="stylesheet">
@@ -144,6 +145,7 @@
                         <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-collection-item"></i> Payment Due</a>
                         <ul>
                             <li><a href="purchasedue"><i class="zmdi zmdi-view-list"></i> Purchase Payment</a></li>
+                            <li><a href="paymentduechart"><i class="zmdi zmdi-view-list"></i> Payment Due Chart</a></li>
                             <li><a href="salesdue"><i class="zmdi zmdi-view-list"></i> Sales Payment</a></li>
                             <li class="active"><a href="paymentfollowup"><i class="zmdi zmdi-view-list"></i> Payment Followup</a></li>
                         </ul>
@@ -275,7 +277,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <table class="m-t-25" id="treegrid1" style="border: 2px gray solid;border-radius: 5px"></table>
+                            
+                                
                         </div>
                         <!----  Modal  --->
                         <div class="modal fade " id="transaction" role="dialog">
@@ -336,13 +339,12 @@
         <script src="{{asset("/Table-Pagination/")}}/jquery-ui.min.js"></script--> 
         
         <script src="{{asset("/bootstrap-treeview-master/")}}/public/js/bootstrap-treeview.js"></script>
-
-         <script src="{{asset("/balancesheet/")}}/js/modernizr-2.8.3.js"></script>
+        <script src="{{asset("/balancesheet/")}}/js/modernizr-2.8.3.js"></script>
         <script src="{{asset("/balancesheet/")}}/js/jquery-ui.min.js"></script>
 
-        <!-- Ignite UI Required Combined JavaScript Files -->
+        <!-- Ignite UI Required Combined JavaScript Files 
         <script src="{{asset("/balancesheet/")}}/js/infragistics.core.js"></script>
-        <script src="{{asset("/balancesheet/")}}/js/infragistics.lob.js"></script>
+        <script src="{{asset("/balancesheet/")}}/js/infragistics.lob.js"></script>-->
         
         <script>
         $(document).ready(function(){

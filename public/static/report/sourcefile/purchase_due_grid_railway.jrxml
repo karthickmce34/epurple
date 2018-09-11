@@ -59,11 +59,14 @@ and ad_client.ad_client_id = c_invoice.ad_client_id
 and ad_org.ad_org_id = c_invoice.ad_org_id
 and c_invoice.c_bpartner_id = c_bpartner.c_bpartner_id
 and c_invoice.c_invoice_id = fin_payment_schedule.c_invoice_id
-
+and fin_payment_schedule.outstandingamt > 0
 and c_invoice.issotrx = 'N'
 and c_invoice.ad_client_id = $P{client_id}
 and c_invoice.ad_org_id = $P{org_id}
+and fin_payment_schedule.duedate >= to_date($P{fromdate},'dd/mm/yyyy')
+and fin_payment_schedule.duedate <= to_date($P{todate},'dd/mm/yyyy')
 $P!{Aux_c_order}
+
 
 order by ad_org.name,dueyear,duemonth,duedate]]></queryString>
 
@@ -88,7 +91,7 @@ order by ad_org.name,dueyear,duemonth,duedate]]></queryString>
 		<group  name="DueDate" isStartNewPage="true" isReprintHeaderOnEachPage="true" >
 			<groupExpression><![CDATA[$F{DUEMONTHYEAR}]]></groupExpression>
 			<groupHeader>
-			<band height="20"  isSplitAllowed="true" >
+			<band height="42"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="false" pattern="MMMMM-yy" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="0"
@@ -131,6 +134,118 @@ order by ad_org.name,dueyear,duemonth,duedate]]></queryString>
 						height="20"
 						forecolor="#666666"
 						key="line-11"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<staticText>
+					<reportElement
+						x="0"
+						y="20"
+						width="77"
+						height="22"
+						key="staticText-3"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Due Date]]></text>
+				</staticText>
+				<line direction="TopDown">
+					<reportElement
+						x="77"
+						y="20"
+						width="0"
+						height="22"
+						forecolor="#666666"
+						key="line-23"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<staticText>
+					<reportElement
+						x="77"
+						y="20"
+						width="282"
+						height="22"
+						key="staticText-4"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Name]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="359"
+						y="20"
+						width="88"
+						height="22"
+						key="staticText-5"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Invoice Value]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="447"
+						y="20"
+						width="88"
+						height="22"
+						key="staticText-6"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Outstanding Value]]></text>
+				</staticText>
+				<line direction="TopDown">
+					<reportElement
+						x="359"
+						y="20"
+						width="0"
+						height="22"
+						forecolor="#666666"
+						key="line-24"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="447"
+						y="20"
+						width="0"
+						height="22"
+						forecolor="#666666"
+						key="line-25"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="535"
+						y="20"
+						width="0"
+						height="22"
+						forecolor="#666666"
+						key="line-26"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="0"
+						y="20"
+						width="0"
+						height="22"
+						forecolor="#666666"
+						key="line-27"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="0"
+						y="41"
+						width="535"
+						height="0"
+						forecolor="#666666"
+						key="line-28"/>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
 			</band>

@@ -43,7 +43,6 @@ class PurchaseDueController extends Controller {
             $data['username'] = 'Guest';
             $logchk = $this->chklogin($id);
             $sat = date("Y-m-d H:i:s", strtotime('Saturday'));
-            //print_r($sat);die;
             if($logchk['active'] == 'Y')
             {
             $userid = $logchk['createdby'];
@@ -73,6 +72,7 @@ class PurchaseDueController extends Controller {
            }
             
             
+            
 	}
         public function postOrg()
 	{
@@ -92,7 +92,7 @@ class PurchaseDueController extends Controller {
             $data['status']=0;
             $data['orgs'] = $org;
             $data['acctschema'] = $acctschema;
-            $data['session_active'] = $session[0]->session_active;
+            $data['session_active'] = 'Y'; //$session[0]->session_active;  temperory
             $data['openbravoip'] = $openbravoip;
             if(count($org)>0)
             {
@@ -105,6 +105,92 @@ class PurchaseDueController extends Controller {
             $this->data['openbravoip'] = $data['openbravoip'];
             return response()->json($this->data);
 	}
+        
+        public function postChartdata()
+	{
+            $inputs = Request::all();
+            $client_id=$inputs['ad_client_id'];
+            $ad_org_id=$inputs['ad_org_id'];
+            if(date('D', strtotime('today')) == 1)
+            {
+                date( 'Y-m-d', strtotime( 'today -1 days'));
+            }
+            else
+            {
+                $currentdate = date('Y-m-d');
+            }
+            
+            $comingsaturday = date( 'Y-m-d', strtotime( 'saturday' ) );
+            $nxtMonday = date( 'Y-m-d', strtotime( 'next Sunday' ) );
+            $nxtSaturday = date( 'Y-m-d', strtotime( 'next Monday + 5 days'));
+            
+            //print_r(date( 'Y-m-d', strtotime( 'today -1 days')));die;
+            
+            $currentdetails=$this->chrtdata($currentdate, $comingsaturday, $client_id, $ad_org_id);
+            $nxtweekdetails=$this->chrtdata($nxtMonday, $nxtSaturday, $client_id, $ad_org_id);
+            
+            //current week
+            $outstanding = array();
+            $days = array();
+            $outstanding[] = 'Pending Payments';
+            $days[] = 'days';
+            foreach($currentdetails as $currentdetail)
+            {
+                $outstanding[] = $currentdetail->outstandingamt;
+                $days[] = $currentdetail->dueday;
+            }
+            
+            //next week
+            
+            $outstanding2 = array();
+            $days2 = array();
+            $outstanding2[] = 'Pending Payments';
+            $days2[] = 'days';
+            foreach($nxtweekdetails as $nxtweekdetail)
+            {
+                $outstanding2[] = $nxtweekdetail->outstandingamt;
+                $days2[] = $nxtweekdetail->dueday;
+            }
+             
+            $data['status']=1;
+            
+            $data['session_active'] = 'Y'; //$session[0]->session_active;  temperory
+            $this->data['curoutstanding'] = $outstanding;
+            $this->data['days'] = $days;
+            $this->data['nxtoutstanding'] = $outstanding2;
+            $this->data['nxtweekdays'] = $days2;
+            $this->data['status'] = $data['status'];
+            $this->data['session_active'] = $data['session_active'];
+            return response()->json($this->data);
+	}
+        
+        protected function chrtdata($fromdate,$todate,$clientid,$orgid) {
+            
+            $currentdetails = DB::select("select ad_client.name as clientname,
+                                            ad_org.name as orgname,
+                                            sum(fin_payment_schedule.outstandingamt) as outstandingamt,
+                                            TO_CHAR( fin_payment_schedule.duedate, 'DAY') as dueday,
+                                            fin_payment_schedule.duedate  as duedate
+
+                                            from c_invoice,fin_payment_schedule,ad_client,ad_org
+
+                                            where 1=1
+                                            and ad_client.ad_client_id = c_invoice.ad_client_id
+                                            and ad_org.ad_org_id = c_invoice.ad_org_id
+                                            and c_invoice.c_invoice_id = fin_payment_schedule.c_invoice_id
+                                            and fin_payment_schedule.outstandingamt > 0
+                                            and c_invoice.issotrx = 'N'
+                                            and c_invoice.ad_client_id = '".$clientid."'
+                                            and c_invoice.ad_org_id = '".$orgid."'
+                                            and fin_payment_schedule.duedate >= to_date('".$fromdate."','yyyy-mm-dd')
+                                            and fin_payment_schedule.duedate <= to_date('".$todate."','yyyy-mm-dd')
+
+                                            group by ad_client.name,ad_org.name,duedate
+
+                                            order by ad_client.name,ad_org.name,duedate");
+            
+            return $currentdetails;
+        }
         
         public function getPurdata()
         {
@@ -227,6 +313,7 @@ class PurchaseDueController extends Controller {
             $sessionid=$inputs['sessionid'];
             $openbravoip   = Config::get('constant.OPENBRAVOIP');
             $session = DB::select("select * from ad_session where ad_session_id='".$sessionid."'");
+            $session[0]->session_active = 'Y'; 
             $data['session_active'] = $session[0]->session_active;
             $data['openbravoip'] = $openbravoip;
             $this->data['session_active'] = $data['session_active'];

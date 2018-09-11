@@ -44,11 +44,10 @@ class HomeController extends Controller {
            {
                $id = $_SESSION['id'];
            }
-           
+           $session= array();
            $data['username'] = 'Guest';
            $session = DB::select("select * from ad_session where ad_session_id='".$id."'");
            //print_r($session);die;
-           
            if($session[0]->session_active == 'Y')
            {
            $userid = $session[0]->createdby;
@@ -64,7 +63,7 @@ class HomeController extends Controller {
            $windowaccess = DB::select("select * from ad_window_access where ad_role_id in ('".$roleid."')");
            $window = DB::select("select * from ad_window where ad_window_id='".$userid."'");
            
-           print_r($orglist);
+           //print_r($orglist);
            }
            else {
                header("Location: http://192.168.0.48:8080/punetest/");
